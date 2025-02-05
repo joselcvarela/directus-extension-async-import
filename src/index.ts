@@ -14,7 +14,10 @@ export default defineEndpoint({
   id: "async-import",
   handler: async (router, context) => {
     router.get("/", (req, res) => {
-      if (!req.accountability?.user) throw new ForbiddenError();
+      if (!req.accountability?.user)
+        throw new ForbiddenError({
+          reason: "Not authenticated",
+        });
 
       const can_view = jobs.filter((job) => {
         if (req.accountability?.admin) return true;
@@ -91,7 +94,10 @@ class Job {
         reason: "No file uploaded!",
       });
 
-    if (!req.accountability?.user) throw new ForbiddenError();
+    if (!req.accountability?.user)
+      throw new ForbiddenError({
+        reason: "Not authenticated",
+      });
 
     if (!jobs.find((job) => job.collection === this.collection)?.ended_at)
       throw new ForbiddenError({
