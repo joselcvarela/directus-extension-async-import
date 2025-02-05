@@ -27,6 +27,27 @@ export default defineEndpoint({
       res.send(can_view);
     });
 
+    router.get("/cleanup", (req, res) => {
+      if (!req.accountability?.user)
+        throw new ForbiddenError({
+          reason: "Not authenticated",
+        });
+
+      const finished_jobs = jobs.filter((job) => {
+        return (
+          job.ended_at &&
+          (req.accountability?.admin ||
+            job.user_id === req.accountability?.user)
+        );
+      });
+
+      for (const finished_job of finished_jobs) {
+        jobs.splice(jobs.indexOf(finished_job), 1);
+      }
+
+      res.send({ cleared: true });
+    });
+
     router.post("/:collection/abort", async (req, res) => {
       if (!req.params.collection)
         throw new InvalidPayloadError({
