@@ -2,7 +2,7 @@
   "name": "directus-extension-async-import",
   "description": "Custom endpoints to handle large file imports into Directus",
   "icon": "extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": [
     "directus",
     "directus-extension",
