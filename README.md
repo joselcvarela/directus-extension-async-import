@@ -30,3 +30,10 @@ async function start() {
   const status = await axios.get("/async-import/").then((r) => r.data);
 }
 ```
+
+## Spec
+
+- `GET /async-import/` - Retrieves all the jobs
+- `GET /async-import/cleanup` - Clears finished jobs. Useful to prevent memory leaks
+- `POST /async-import/:collection` - Start a new import job. Body should be a Form Data with "file" field being the file to import (CSV or JSON)
+- `POST /async-import/:collection/abort` - Tries to abort the job for this collection
